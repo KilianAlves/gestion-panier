@@ -7,11 +7,16 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint ."
+    "lint": "eslint .",
+	  "api": "npm run json-server",
+    "forward": "adb reverse tcp:7000 tcp:7000",
+    "json-server": "json-server -h 0.0.0.0 --port 7000 --watch data.json",
+    "delay-api": "npm run json-server -- --middlewares=delay.js"
   },
   "dependencies": {
     "expo": "~51.0.7",
     "expo-status-bar": "~1.12.1",
+    "json-server": "^1.0.0-beta.0",
     "react": "18.2.0",
     "react-native": "0.74.1"
   },
