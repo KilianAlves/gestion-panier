@@ -1,3 +1,3 @@
-import { useContext, createContext } from "react";
+import { createContext } from "react";
 
-//export const testContext = createContext(null);
+export const articleContext = createContext(null);
