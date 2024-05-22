@@ -1,11 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import ArticleView from "./components/ArticleView";
+import Title from "./components/Title";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Title title={"Titre"} />
       <StatusBar style="auto" />
+      <ArticleView />
     </View>
   );
 }
