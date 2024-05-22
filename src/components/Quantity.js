@@ -1,5 +1,12 @@
-import { Text } from "react-native";
+import { Text, Button } from "react-native";
 
 export default function Quantity({ quantity, onUpdate }) {
-  return <Text>Quantity</Text>;
+  const pressedButton = () => {};
+  return (
+    <>
+      <Button title="-" onPress={pressedButton} />
+      <Text>{quantity}</Text>
+      <Button title="+" onPress={pressedButton} />
+    </>
+  );
 }
