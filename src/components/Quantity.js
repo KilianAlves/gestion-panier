@@ -1,8 +1,8 @@
-import { Text, Button } from "react-native";
+import { Text, Button, StyleSheet, View } from "react-native";
 
 export default function Quantity({ quantity, onUpdate }) {
   return (
-    <>
+    <View style={style.container}>
       <Button
         title="-"
         onPress={() => {
@@ -17,6 +17,14 @@ export default function Quantity({ quantity, onUpdate }) {
           onUpdate(quantity + 1);
         }}
       />
-    </>
+    </View>
   );
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexDirection: "row",
+  },
+});

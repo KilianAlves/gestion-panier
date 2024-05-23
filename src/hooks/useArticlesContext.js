@@ -1,27 +1,36 @@
-import { useReducer } from "react";
+export const ArticleInitialState = {
+  articles: [],
+  cart: {},
+};
 
+// const [state, dispatch] = useReducer(ArticleReducer, initialState);
 
-    switch () {
+export const ArticleReducer = (state, action) => {
+  // state possède valeur
+  switch (action.type) {
     case "setArticles":
-        console.log("setArticles");
-        break;
+      return { ...state, articles: action.payload };
     case "setCart":
-        console.log("setCart");
-        break;
+      return { ...state, cart: action.payload };
     case "removeArticleFromCart":
-        console.log("removeArticleFromCart");
-        break;
+      console.log("removeArticleFromCart");
+      break;
     case "addArticleInCart":
-        console.log("addArticleInCart");
-        break;
+      return {
+        ...state,
+        cart: { ...state.cart, [action.payload.id]: action.payload },
+      };
     case "updateArticleInCart":
-        console.log("updateArticleInCart");
-        break;
+      return {
+        ...state,
+        cart: { ...state.cart, [action.payload.id]: action.payload },
+      };
     case "emptyCart":
-        console.log("emptyCart");
-        break;
+      return { ...state, cart: {} };
     default:
-        console.log("default");
-        break;
-    }
-    
+      console.log("default");
+      break;
+  }
+};
+
+// export default { ArticleInitialState, ArticleReducer };
