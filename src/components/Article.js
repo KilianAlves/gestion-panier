@@ -3,14 +3,14 @@ import Quantity from "./Quantity";
 import useQuantity from "../hooks/useQuantity";
 
 export default function Article({ article }) {
-  const { quantity, onUpdate } = useQuantity();
+  const { quantity, onUpdate } = useQuantity(article);
   // require(`../../${article.image}`);
   return (
     <View style={style.container}>
       <Text>{article.description}</Text>
       <Text>{article.price}</Text>
       <Text>Type : {article.type}</Text>
-      <Image alt="img" source={article.image} />
+      <Image source={article.image} width={50} height={50} />
       <Quantity quantity={quantity} onUpdate={onUpdate} />
     </View>
   );
