@@ -1,29 +1,32 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import ArticleView from "./src/components/ArticleView";
 import Title from "./src/components/Title";
-import { useEffect, useState, useReducer } from "react";
+import { useEffect } from "react";
 import { getArticles, getCart } from "./src/services/api";
 import { articleContext } from "./src/services/store";
-import {
-  ArticleReducer,
-  ArticleInitialState,
-} from "./src/hooks/useArticlesContext";
-import Temp from "./src/components/temp";
+import { useArticlesContext } from "./src/hooks/useArticlesContext";
+
+import { clearCart } from "./src/services/api";
 
 export default function App() {
-  const [articles, setArticles] = useState([]);
-  const [cart, setCart] = useState({});
+  const { state, dispatch } = useArticlesContext();
 
-  const [state, dispatch] = useReducer(ArticleReducer, ArticleInitialState);
+  function listCartToObjCart(cart) {
+    const cartObject = {};
+
+    cart.forEach((item) => {
+      cartObject[item.id] = { ...item };
+    });
+
+    return cartObject;
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchArticles = await getArticles();
-        const fetchCart = await getCart();
+        const fetchCart = listCartToObjCart(await getCart());
 
-        setCart(fetchCart);
-        setArticles(fetchArticles);
         dispatch({ type: "setArticles", payload: fetchArticles });
         dispatch({ type: "setCart", payload: fetchCart });
       } catch (error) {
@@ -32,10 +35,9 @@ export default function App() {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   // supprimer le bouton qui permet de console log le state du store
-  // suppr composant pour tester le useContext puis bouton pour test dispatch emptyCart
   return (
     <articleContext.Provider value={{ state, dispatch }}>
       <Button
@@ -44,10 +46,16 @@ export default function App() {
           console.log(state);
         }}
       />
-      <Temp />
+      <Button
+        title="vider panier"
+        onPress={async () => {
+          dispatch({ type: "emptyCart" });
+          console.log(await clearCart());
+        }}
+      />
       <View style={styles.container}>
         <Title title={"Titre"} />
-        <ArticleView articles={articles} />
+        <ArticleView />
       </View>
     </articleContext.Provider>
   );
