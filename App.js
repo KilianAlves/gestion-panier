@@ -8,6 +8,7 @@ import {
   ArticleReducer,
   ArticleInitialState,
 } from "./src/hooks/useArticlesContext";
+import Temp from "./src/components/temp";
 
 export default function App() {
   const [articles, setArticles] = useState([]);
@@ -34,14 +35,16 @@ export default function App() {
   }, []);
 
   // supprimer le bouton qui permet de console log le state du store
+  // suppr composant pour tester le useContext puis bouton pour test dispatch emptyCart
   return (
-    <articleContext.Provider value={(state, dispatch)}>
+    <articleContext.Provider value={{ state, dispatch }}>
       <Button
         title="log state"
         onPress={() => {
           console.log(state);
         }}
       />
+      <Temp />
       <View style={styles.container}>
         <Title title={"Titre"} />
         <ArticleView articles={articles} />
