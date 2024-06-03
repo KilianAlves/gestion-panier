@@ -49,6 +49,7 @@ export default function App() {
       <Button
         title="vider panier"
         onPress={async () => {
+          clearCart();
           dispatch({ type: "emptyCart" });
           console.log(await clearCart());
         }}

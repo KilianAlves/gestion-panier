@@ -1,3 +1,4 @@
+import React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 import Quantity from "./Quantity";
 import useQuantity from "../hooks/useQuantity";
@@ -10,7 +11,11 @@ export default function Article({ article }) {
       <Text>{article.description}</Text>
       <Text>{article.price}</Text>
       <Text>Type : {article.type}</Text>
-      <Image source={article.image} width={50} height={50} />
+      <Image
+        source={{ uri: `http://localhost:7000${article.image}` }}
+        width={50}
+        height={50}
+      />
       <Quantity quantity={quantity} onUpdate={onUpdate} />
     </View>
   );

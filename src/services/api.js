@@ -11,29 +11,33 @@ export function getCart() {
 }
 
 export function postCart(article) {
+  console.log("test : ");
+  console.log(article);
   // post d'un article dans le panier, quantité 1 avec prix de l'article
-  return fetch(`http://localhost:7000/cart/${article.id}`, {
+  return fetch("http://localhost:7000/cart", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: article.id, quantity: 1, price: article.price }),
+    body: JSON.stringify(article),
   });
 }
 
 export function deleteCart(article) {
+  console.log("deleteCart");
+  console.log(article);
   return fetch(`http://localhost:7000/cart/${article.id}`, {
     method: "DELETE",
   });
 }
 
-export function updateCart(article) {
+export function updateCart(article, quantity) {
   return fetch(`http://localhost:7000/cart/${article.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ quantity: article.quantity }),
+    body: JSON.stringify({ quantity: quantity }),
   });
 }
 

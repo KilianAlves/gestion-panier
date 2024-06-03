@@ -6,25 +6,43 @@ export default function useQuantity(article) {
   const { dispatch } = useContext(articleContext);
 
   const [quantity, setQuantity] = useState(0);
-  const onUpdate = async (changedQuantity) => {
-    if (changedQuantity === 0) {
-      // suppression de l'article du panier
-      console.log(deleteCart(article));
-      dispatch({ type: "removeArticleFromCart", payload: article.id });
-    } else if (changedQuantity === 1) {
-      // ajout de l'article dans le panier
-      // ajouter verification si article est deja dans le panier
-      console.log(await postCart(article));
-      dispatch({ type: "addArticleInCart", payload: article });
-    } else {
-      // mise à jour de la quantité de l'article dans le panier
-      console.log(await updateCart(article));
-      dispatch({
-        type: "updateArticleInCart",
-        payload: { ...article, quantity: changedQuantity },
-      });
-    }
 
+  const { cart } = useContext(articleContext).state;
+  const CartId = Object.values(cart).map((article) => article.id);
+  const ArticleNotInCart = !CartId.includes(article.id);
+
+  const onUpdate = async (changedQuantity) => {
+    if (ArticleNotInCart) {
+      // Ajout
+      console.log("article");
+      console.log(article);
+      const articleToSend = {
+        id: article.id,
+        quantity: 1,
+        price: article.price,
+      };
+      console.log("articleToSend");
+      console.log(articleToSend);
+      console.log(await postCart(articleToSend));
+      dispatch({ type: "addArticleInCart", payload: articleToSend });
+    } else {
+      if (changedQuantity === 0) {
+        // Suppression
+        console.log(deleteCart(article));
+        dispatch({ type: "removeArticleFromCart", payload: article.id });
+      } else {
+        // Modification
+        console.log(await updateCart(article, changedQuantity));
+        dispatch({
+          type: "updateArticleInCart",
+          payload: {
+            id: article.id,
+            quantity: changedQuantity,
+            price: article.price,
+          },
+        });
+      }
+    }
     setQuantity(changedQuantity);
   };
 

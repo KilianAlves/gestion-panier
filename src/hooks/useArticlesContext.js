@@ -15,15 +15,8 @@ const ArticleReducer = (state, action) => {
     case "setCart":
       return { ...state, cart: action.payload };
     case "removeArticleFromCart":
-      return {
-        ...state,
-        cart: Object.keys(state.cart)
-          .filter((id) => id !== action.payload)
-          .reduce((acc, id) => {
-            acc[id] = state.cart[id];
-            return acc;
-          }, {}),
-      };
+      const { [action.payload]: _, ...newCart } = state.cart;
+      return { ...state, cart: newCart };
     case "addArticleInCart":
       console.log(action.payload);
       return {
@@ -39,7 +32,7 @@ const ArticleReducer = (state, action) => {
       return { ...state, cart: {} };
     default:
       console.log("default");
-      break;
+      return state;
   }
 };
 
