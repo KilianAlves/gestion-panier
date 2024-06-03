@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { articleContext } from "../services/store";
 import { useContext } from "react";
 
-export default function Footer() {
+export default function Footer({ navigation, To }) {
   const { state } = useContext(articleContext);
 
   // Calcul du total du panier, on recup valeur du state.cart
@@ -18,6 +18,12 @@ export default function Footer() {
   return (
     <View style={style.container}>
       <Text>Total : {total}€</Text>
+      <Button
+        onPress={() => {
+          navigation.navigate(To);
+        }}
+        title="t"
+      />
     </View>
   );
 }

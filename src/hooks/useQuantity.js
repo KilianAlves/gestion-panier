@@ -1,38 +1,47 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { articleContext } from "../services/store";
-import { postCart, deleteCart, updateCart } from "../services/api";
+import { postCart, deleteCart, updateCart, getCart } from "../services/api";
 
 export default function useQuantity(article) {
   const { dispatch } = useContext(articleContext);
-
-  const [quantity, setQuantity] = useState(0);
 
   const { cart } = useContext(articleContext).state;
   const CartId = Object.values(cart).map((article) => article.id);
   const ArticleNotInCart = !CartId.includes(article.id);
 
+  const [quantity, setQuantity] = useState(
+    cart[article.id] ? cart[article.id].quantity : 0,
+  );
+
+  // Récupération de la quantité de l'article dans le panier pour sync quantité au démarrage
+  useEffect(() => {
+    getCart().then((cartData) => {
+      const articleInCart = cartData.find((item) => item.id === article.id);
+      if (articleInCart) {
+        setQuantity(articleInCart.quantity);
+      }
+    });
+  }, [article.id]);
+
   const onUpdate = async (changedQuantity) => {
     if (ArticleNotInCart) {
       // Ajout
-      console.log("article");
-      console.log(article);
       const articleToSend = {
         id: article.id,
         quantity: 1,
         price: article.price,
       };
-      console.log("articleToSend");
-      console.log(articleToSend);
-      console.log(await postCart(articleToSend));
+
+      await postCart(articleToSend);
       dispatch({ type: "addArticleInCart", payload: articleToSend });
     } else {
       if (changedQuantity === 0) {
         // Suppression
-        console.log(deleteCart(article));
+        deleteCart(article);
         dispatch({ type: "removeArticleFromCart", payload: article.id });
       } else {
         // Modification
-        console.log(await updateCart(article, changedQuantity));
+        await updateCart(article, changedQuantity);
         dispatch({
           type: "updateArticleInCart",
           payload: {

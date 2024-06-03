@@ -1,15 +1,18 @@
 import { Button, StyleSheet, View } from "react-native";
-import ArticleView from "./src/components/ArticleView";
+import ArticleView from "./src/views/ArticleView";
 import Title from "./src/components/Title";
 import { useEffect } from "react";
 import { getArticles, getCart } from "./src/services/api";
 import { articleContext } from "./src/services/store";
 import { useArticlesContext } from "./src/hooks/useArticlesContext";
-
-import { clearCart } from "./src/services/api";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import CartView from "./src/views/CartView";
 
 export default function App() {
   const { state, dispatch } = useArticlesContext();
+
+  const Stack = createNativeStackNavigator();
 
   function listCartToObjCart(cart) {
     const cartObject = {};
@@ -39,35 +42,14 @@ export default function App() {
 
   // supprimer le bouton qui permet de console log le state du store
   return (
-    <articleContext.Provider value={{ state, dispatch }}>
-      <Button
-        title="log state"
-        onPress={() => {
-          console.log(state);
-        }}
-      />
-      <Button
-        title="vider panier"
-        onPress={async () => {
-          clearCart();
-          dispatch({ type: "emptyCart" });
-          console.log(await clearCart());
-        }}
-      />
-      <View style={styles.container}>
+    <NavigationContainer>
+      <articleContext.Provider value={{ state, dispatch }}>
         <Title title={"Titre"} />
-        <ArticleView />
-      </View>
-    </articleContext.Provider>
+        <Stack.Navigator>
+          <Stack.Screen name="ArticleList" component={ArticleView} />
+          <Stack.Screen name="Panier" component={CartView} />
+        </Stack.Navigator>
+      </articleContext.Provider>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-  },
-});

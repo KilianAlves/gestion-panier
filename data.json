@@ -169,5 +169,21 @@
       "picture": "/images/pc6.jpg"
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "id": "5",
+      "quantity": 1,
+      "price": 107.5
+    },
+    {
+      "id": "3",
+      "quantity": 3,
+      "price": 26.9
+    },
+    {
+      "id": "1",
+      "quantity": 7,
+      "price": 12.5
+    }
+  ]
 }
