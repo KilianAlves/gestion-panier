@@ -11,8 +11,6 @@ export function getCart() {
 }
 
 export function postCart(article) {
-  console.log("test : ");
-  console.log(article);
   // post d'un article dans le panier, quantité 1 avec prix de l'article
   return fetch("http://localhost:7000/cart", {
     method: "POST",
@@ -24,8 +22,6 @@ export function postCart(article) {
 }
 
 export function deleteCart(article) {
-  console.log("deleteCart");
-  console.log(article);
   return fetch(`http://localhost:7000/cart/${article.id}`, {
     method: "DELETE",
   });

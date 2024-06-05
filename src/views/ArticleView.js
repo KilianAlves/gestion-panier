@@ -4,14 +4,14 @@ import ArticleList from "../components/ArticleList";
 import { useContext } from "react";
 import { articleContext } from "../services/store";
 
-export default function ArticleView() {
+export default function ArticleView({ navigation }) {
   const { state } = useContext(articleContext);
   const articles = state.articles;
   return (
     <View style={{ display: "flex", flex: 1 }}>
       <Text>ArticleView</Text>
       <ArticleList articles={articles} />
-      <Footer To="Panier" />
+      <Footer navigation={navigation} To="Panier" />
     </View>
   );
 }

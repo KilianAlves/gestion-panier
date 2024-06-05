@@ -18,7 +18,6 @@ const ArticleReducer = (state, action) => {
       const { [action.payload]: _, ...newCart } = state.cart;
       return { ...state, cart: newCart };
     case "addArticleInCart":
-      console.log(action.payload);
       return {
         ...state,
         cart: { ...state.cart, [action.payload.id]: action.payload },
@@ -31,7 +30,6 @@ const ArticleReducer = (state, action) => {
     case "emptyCart":
       return { ...state, cart: {} };
     default:
-      console.log("default");
       return state;
   }
 };

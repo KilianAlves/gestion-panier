@@ -19,10 +19,10 @@ export default function Footer({ navigation, To }) {
     <View style={style.container}>
       <Text>Total : {total}€</Text>
       <Button
+        title="Voir le panier"
         onPress={() => {
           navigation.navigate(To);
         }}
-        title="t"
       />
     </View>
   );
@@ -30,6 +30,9 @@ export default function Footer({ navigation, To }) {
 
 const style = StyleSheet.create({
   container: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     borderWidth: 1,
     padding: 10,
   },
